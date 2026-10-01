@@ -72,6 +72,7 @@ ai-logs/            AI session transcripts (see ai-logs/README.md)
   - Decorative bands that intentionally overflow (language chips, ticker, CTA watermark, footer logo) clip themselves.
   - Images that overflow a panel on purpose (the program models) have matching section spacing.
   - Full-width buttons wrap their label rather than overflow at 320px.
+- **Sticky navigation pill (self-designed scrolling behavior):** The white top of the Hero frame remains static in the normal document flow; only the existing rounded navigation pill stays visible while scrolling. At the top of the page, the pill keeps its original position, content, dimensions, controls, colors, and shadow. The behavior is CSS-only, with no hide/reveal animation, blur, resizing, or duplicate header. The pill sits 8px from the viewport top on mobile and 16px on desktop. Anchor targets use responsive `scroll-margin-top` values (5rem, increasing to 7.5rem from `lg`) so the floating pill does not cover section headings. The Header intentionally has no `id="top"`; the Apsu wordmarks keep `href="/#top"`, which uses the fragment's reserved top-of-document behavior to return to scroll position 0.
 - **Verification:** the desktop page measures exactly the board height (10155px), and section tops are within a few pixels of the spec. A temporary script (not part of the repo) swept every 10px from 320 to 1920 for page overflow, escaped elements, overflowing controls and nav wrapping.
 
 ## Assets and images

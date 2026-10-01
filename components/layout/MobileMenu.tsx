@@ -21,9 +21,22 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-    document.documentElement.style.overflow = open ? "hidden" : "";
+
+    if (!open) {
+      if (dialog.open) dialog.close();
+      return;
+    }
+
+    if (!dialog.open) dialog.showModal();
+
+    // Lock page scroll while open; the cleanup restores it on close or unmount.
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
+
+    return () => {
+      root.style.overflow = previousOverflow;
+    };
   }, [open]);
 
   const close = () => setOpen(false);
@@ -51,7 +64,11 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
       >
         <div className="px-5">
           <div className="flex h-14 items-center justify-between border-b border-[#e6e6e6] pl-3">
-            <a href="/#top" className="-ml-0.5 font-display text-[39px] leading-none font-bold tracking-[-0.055em] text-ink">
+            <a
+              href="/#top"
+              onClick={close}
+              className="-ml-0.5 font-display text-[39px] leading-none font-bold tracking-[-0.055em] text-ink transition-colors hover:text-brand active:text-ink-active"
+            >
               {content.brandName}
             </a>
             <IconButton label="Close menu" onClick={close} className="-mr-[7px] size-11">

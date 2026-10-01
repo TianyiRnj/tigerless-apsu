@@ -3,10 +3,10 @@ import Image from "next/image";
 import { MedicationCard } from "@/components/cards/MedicationCard";
 import { Button } from "@/components/ui/Button";
 import { CheckList } from "@/components/ui/CheckList";
-import type { Medication, ProgramContent } from "@/types/home";
+import type { Medication, WeightLossProgramContent } from "@/types/home";
 
 interface WeightLossSectionProps {
-  program: ProgramContent;
+  program: WeightLossProgramContent;
   medications: Medication[];
 }
 

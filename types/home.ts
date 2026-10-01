@@ -1,7 +1,13 @@
 // Content contract for the homepage. These shapes stand in for a future
 // backend response, so they only describe content — never layout or styling.
 
-/** A navigation entry. `href` is omitted when the design shows the item but no destination exists yet. */
+/** A link whose destination is guaranteed, so it always renders as an anchor. */
+export interface LinkItem {
+  label: string;
+  href: string;
+}
+
+/** A footer entry. `href` is omitted when the design shows the item but no destination exists yet, so it renders as plain text. */
 export interface NavItem {
   label: string;
   href?: string;
@@ -90,7 +96,7 @@ export interface FooterLinkGroup {
 
 export interface HeaderContent {
   brandName: string;
-  navigation: NavItem[];
+  navigation: LinkItem[];
   primaryCta: Cta;
   secondaryCta: Cta;
 }
@@ -113,17 +119,24 @@ export interface HowItWorksContent {
 }
 
 /** Shared by the Weight Loss, Birth Control and Sleep program panels. */
-export interface ProgramContent {
+export interface ProgramBaseContent {
   id: string;
-  eyebrow?: string;
   title: string;
-  description?: string[];
   points: string[];
-  /** Monthly starting price in USD. */
-  price?: number;
   cta: Cta;
   imageSrc: string;
   imageAlt: string;
+}
+
+export interface WeightLossProgramContent extends ProgramBaseContent {
+  eyebrow: string;
+}
+
+/** Birth Control and Sleep: panels that show a description and a starting price. */
+export interface PricedProgramContent extends ProgramBaseContent {
+  description: string[];
+  /** Monthly starting price in USD. */
+  price: number;
 }
 
 export interface BmiContent {
@@ -142,7 +155,7 @@ export interface BmiContent {
   /** Fixed result shown by the UI demo; it is not calculated from the inputs. */
   demoScore: number;
   legend: { label: string; range: string }[];
-  optionsLink: NavItem;
+  optionsLink: LinkItem;
   backgroundSrc: string;
 }
 
@@ -188,11 +201,11 @@ export interface HomePageContent {
   treatments: Treatment[];
   trustItems: TrustItem[];
   howItWorks: HowItWorksContent;
-  weightLoss: ProgramContent;
+  weightLoss: WeightLossProgramContent;
   medications: Medication[];
   bmi: BmiContent;
-  birthControl: ProgramContent;
-  sleep: ProgramContent;
+  birthControl: PricedProgramContent;
+  sleep: PricedProgramContent;
   careFeatures: CareFeaturesContent;
   testimonials: TestimonialsContent;
   faq: FaqContent;

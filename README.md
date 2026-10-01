@@ -48,14 +48,18 @@ ai-logs/            AI session transcripts (see ai-logs/README.md)
 
 `types/home.ts` is written as the response a future homepage API could return, and is meant to be read first.
 
-- `HomePageContent` is composed of section contracts: `HeroContent`, `HowItWorksContent`, `ProgramContent`, `BmiContent`, `TestimonialsContent`, `FaqContent`, `FooterContent`, `LegalContent`, and so on.
+- `HomePageContent` is composed of section contracts: `HeroContent`, `HowItWorksContent`, `ProgramBaseContent`, `WeightLossProgramContent`, `PricedProgramContent`, `BmiContent`, `TestimonialsContent`, `FaqContent`, `FooterContent`, `LegalContent`, and so on.
+- The program panels share `ProgramBaseContent`. Weight Loss (`WeightLossProgramContent`) requires an eyebrow and has no price. Birth Control and Sleep (`PricedProgramContent`) require a description and a price, so data for either that is missing its price fails the TypeScript check.
 - `Testimonial` is a discriminated union (`kind: "quote" | "photo"`), so a photo testimonial can't carry a quote and rating by accident.
 - `FaqItem.answer` is required.
 - Prices are numbers; the "From $X/mo" text is formatted in the components.
-- Navigation and CTAs share one minimal shape, `{ label, href? }`. A missing `href` means the design shows the item but no destination exists yet (see Known limitations).
+- Links come in three shapes (see Known limitations for items without destinations):
+  - `LinkItem` `{ label, href }`: `href` is required. Used for the Header and Mobile Menu navigation and the BMI options link.
+  - `NavItem` `{ label, href? }`: `href` is optional. Used for Footer items, which render as plain text when there is no destination.
+  - `Cta` `{ label, href? }`: `href` is optional. Without a destination the CTA renders as a real `<button>`.
 - The contract contains no layout data: no colors, variants, or positions. Card tints, chip highlighting and decorative content are presentation choices made in the components.
 
-`data/home.ts` provides the mock content with `satisfies HomePageContent`, which type-checks the data while keeping literal types. All major visible copy lives there; components mostly render typed props.
+`data/home.ts` provides the mock content with `satisfies HomePageContent`, which type-checks the data while keeping literal types. Dynamic homepage content comes from typed mock data. One-off, aria-hidden decorative mockup content remains co-located with the section that renders it.
 
 ## Responsive approach
 
@@ -134,6 +138,7 @@ The design has no hover or pressed states, so these follow one restrained system
 | Primary button | Ink `#102B1C` → `#1E4630`; the arrow disc nudges 2px right | `#0A1D12` + `scale(0.98)` | 2px `#00774D` outline, 3px offset | Disabled: 40% opacity, no pointer events |
 | Secondary button ("See plans") | White → `#EEF5F1`; arrow nudge | `#E1ECE6` + `scale(0.98)` | Same ring | — |
 | Outline button (Login) | 5% ink tint | 10% ink tint + `scale(0.98)` | Same ring | — |
+| Brand/Home link (Apsu wordmark) | Brand green | Dark ink `#0A1D12` | Same ring (existing global brand outline) | Shared 200ms color transition |
 | Header and menu nav links | Brand green + underline | Ink | Same ring | — |
 | Footer links | White + underline | Mint `#B8D9C6` | White ring | Items without a destination are plain text, with no states |
 | Icon buttons (menu, close, carousel arrows) | Ring fills with ink; the icon turns white | `scale(0.94)` | Same ring | — |

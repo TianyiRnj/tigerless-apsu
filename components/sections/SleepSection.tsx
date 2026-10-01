@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/Button";
 import { CheckList } from "@/components/ui/CheckList";
-import type { ProgramContent } from "@/types/home";
+import type { PricedProgramContent } from "@/types/home";
 
 /** Decorative patient-profile cards from the design, layered over the photo. */
 function ProfilePreview() {
@@ -35,7 +35,7 @@ function ProfilePreview() {
   );
 }
 
-export function SleepSection({ program }: { program: ProgramContent }) {
+export function SleepSection({ program }: { program: PricedProgramContent }) {
   return (
     <section id={program.id} aria-labelledby="sleep-title" className="page-container pt-8 lg:pt-20">
       <div className="relative overflow-hidden rounded-[20px] bg-tint-aqua lg:flex lg:min-h-[718px] lg:items-center lg:justify-end lg:overflow-visible lg:rounded-[32px]">

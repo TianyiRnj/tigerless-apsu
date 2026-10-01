@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/Button";
 import { CheckList } from "@/components/ui/CheckList";
-import type { ProgramContent } from "@/types/home";
+import type { PricedProgramContent } from "@/types/home";
 
-export function BirthControlSection({ program }: { program: ProgramContent }) {
+export function BirthControlSection({ program }: { program: PricedProgramContent }) {
   return (
     <section id={program.id} aria-labelledby="birth-control-title" className="page-container pt-[60px] lg:pt-[120px]">
       <div className="relative overflow-hidden rounded-[20px] bg-tint-pink lg:flex lg:min-h-[718px] lg:items-center lg:overflow-visible lg:rounded-[32px]">

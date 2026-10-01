@@ -51,7 +51,7 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
       >
         <div className="px-5">
           <div className="flex h-14 items-center justify-between border-b border-[#e6e6e6] pl-3">
-            <a href="/" className="-ml-0.5 font-display text-[39px] leading-none font-bold tracking-[-0.055em] text-ink">
+            <a href="/#top" className="-ml-0.5 font-display text-[39px] leading-none font-bold tracking-[-0.055em] text-ink">
               {content.brandName}
             </a>
             <IconButton label="Close menu" onClick={close} className="-mr-[7px] size-11">

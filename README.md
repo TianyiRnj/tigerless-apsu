@@ -138,7 +138,7 @@ The design has no hover or pressed states, so these follow one restrained system
 | Footer links | White + underline | Mint `#B8D9C6` | White ring | Items without a destination are plain text, with no states |
 | Icon buttons (menu, close, carousel arrows) | Ring fills with ink; the icon turns white | `scale(0.94)` | Same ring | — |
 | FAQ item | Closed: question and chevron ring turn brand green. Open header darkens slightly | Closed: tinted background. Open: darker green | Same ring | Chevron rotates 180° (200ms); answer reveals by grid-row transition (250ms) |
-| BMI inputs and radio pills | Border `#CDDCD3` → `#AFC1B6` | — | Ring around the whole pill | Selected radio is filled ink; the error message (red text) appears only after an invalid submit |
+| BMI inputs and radio pills | Border `#CDDCD3` → `#AFC1B6` | — | Ring around the whole pill | Selected radio is filled ink. After an invalid submit, the instruction line turns into a red error message in the same place, so the layout height never changes |
 | BMI unit toggle | 5% ink tint | 10% ink tint | Ring around the segment | Selected segment is ink with white text |
 | "See your GLP-1 Options" | Brand green + underline; arrow nudge | Darker ink | Same ring | — |
 | Mobile menu | — | — | — | Fades in over 200ms; page scroll locked while open |

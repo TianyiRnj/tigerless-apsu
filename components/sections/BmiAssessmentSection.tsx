@@ -118,13 +118,16 @@ export function BmiAssessmentSection({ content, initialState = "default" }: BmiA
     <section aria-labelledby="bmi-title" className="page-container mt-8">
       <div className="xl:rounded-3xl xl:bg-white xl:p-3">
         <div className="relative isolate overflow-hidden rounded-xl p-3 xl:rounded-2xl xl:px-16 xl:py-10">
-          <Image
-            src={content.backgroundSrc}
-            alt=""
-            fill
-            sizes="(min-width: 1280px) 1296px, 100vw"
-            className="-z-20 object-cover"
-          />
+          {/* The supplied photo has transparent margins; the oversized box keeps them out of view. */}
+          <div className="absolute -inset-x-[1%] -top-[1.5%] -bottom-[3%] -z-20">
+            <Image
+              src={content.backgroundSrc}
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 1320px, 100vw"
+              className="object-cover"
+            />
+          </div>
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#3c3a3a99]" />
 
           <form
@@ -144,7 +147,14 @@ export function BmiAssessmentSection({ content, initialState = "default" }: BmiA
               >
                 {content.title}
               </h2>
-              <p className="mt-2 text-sm leading-[1.6] xl:mt-4 xl:text-lg">{content.instructions}</p>
+              {/* The error replaces the instruction line, so the layout height never changes. */}
+              {status === "error" ? (
+                <p role="alert" className="mt-2 text-sm leading-[1.6] text-[#b42318] xl:mt-4 xl:text-lg">
+                  {content.errorMessage}
+                </p>
+              ) : (
+                <p className="mt-2 text-sm leading-[1.6] xl:mt-4 xl:text-lg">{content.instructions}</p>
+              )}
             </div>
 
             <div className="mt-6 [grid-area:fields] xl:mt-0 xl:rounded-b-2xl xl:border-x xl:border-b xl:border-[#bcffe6] xl:bg-white xl:px-[25px] xl:pb-[25px]">
@@ -220,12 +230,6 @@ export function BmiAssessmentSection({ content, initialState = "default" }: BmiA
                   ))}
                 </div>
               </fieldset>
-
-              {status === "error" && (
-                <p role="alert" className="mt-4 text-sm leading-[1.4] text-[#b42318] xl:text-base">
-                  {content.errorMessage}
-                </p>
-              )}
 
               <button
                 type="submit"

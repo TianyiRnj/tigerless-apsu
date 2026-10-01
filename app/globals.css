@@ -1,1 +1,85 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-work-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+
+  /* Design palette, taken from the detailed element spec */
+  --color-page: #faf9f4;
+  --color-ink: #102b1c;
+  --color-brand: #00774d;
+  --color-teal: #21ac88;
+  --color-gauge: #009269;
+  --color-heading: #111111;
+  --color-title: #2a2a2a;
+  --color-graphite: #292b2a;
+  --color-body: #3b3b3c;
+  --color-chip-text: #585d5a;
+  --color-muted: #6c6c6c;
+  --color-unit: #6f6f6f;
+  --color-forest: #173a26;
+  --color-chip: #b8d9c6;
+  --color-line: #cddcd3;
+  --color-rule: #afc1b6;
+  --color-tint-mint: #bcffe6cc;
+  --color-tint-pink: #ffdeff;
+  --color-tint-aqua: #d0fffd;
+  --color-faq: #587362;
+  --color-faq-panel: #f0f6f3;
+  --color-field: #f6f8fa;
+  --color-star: #ffca00;
+
+  /* Self-designed hover / pressed shades of the ink color */
+  --color-ink-hover: #1e4630;
+  --color-ink-active: #0a1d12;
+
+  /* One shared motion timing for every transition */
+  --default-transition-duration: 200ms;
+  --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+}
+
+/* Centered content column: 1320px max, fluid gutters (20px on phones, 60px at 1440). */
+@utility page-container {
+  width: min(100% - 2 * clamp(1.25rem, 4vw, 3.75rem), 82.5rem);
+  margin-inline: auto;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-page);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+
+  [id] {
+    scroll-margin-top: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

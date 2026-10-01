@@ -1,0 +1,41 @@
+import { Button } from "@/components/ui/Button";
+import type { HeaderContent } from "@/types/home";
+
+import { MobileMenu } from "./MobileMenu";
+
+export function Header({ content }: { content: HeaderContent }) {
+  return (
+    // Top half of the white hero frame; HeroSection continues it below.
+    <header className="mx-3 mt-3 rounded-t-[20px] bg-white px-2 pt-2 lg:mx-7 lg:mt-8 lg:rounded-t-[32px] lg:px-7 lg:pt-7">
+      <div className="mx-auto flex h-14 max-w-[1320px] items-center justify-between rounded-full bg-page pr-1.5 pl-3 shadow-[0_10px_30px_rgba(2,31,24,0.08)] xl:grid xl:h-15 xl:grid-cols-[1fr_auto_1fr] xl:px-6">
+        <a href="/" className="-ml-0.5 justify-self-start font-display text-[39px] leading-none font-bold tracking-[-0.055em] text-ink xl:-ml-1">
+          {content.brandName}
+        </a>
+
+        <nav aria-label="Primary" className="hidden xl:block">
+          <ul className="flex gap-4">
+            {content.navigation.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="block rounded-md px-2 py-1.5 text-lg leading-[1.32] whitespace-nowrap text-heading underline-offset-[6px] transition-colors hover:text-brand hover:underline active:text-ink"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="hidden items-center justify-end gap-4 xl:flex">
+          <Button href={content.primaryCta.href}>{content.primaryCta.label}</Button>
+          <Button href={content.secondaryCta.href} variant="outline">
+            {content.secondaryCta.label}
+          </Button>
+        </div>
+
+        <MobileMenu content={content} className="xl:hidden" />
+      </div>
+    </header>
+  );
+}

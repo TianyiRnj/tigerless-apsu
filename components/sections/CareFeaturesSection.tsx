@@ -119,7 +119,7 @@ export function CareFeaturesSection({ content }: { content: CareFeaturesContent 
         id={TRACK_ID}
         aria-label={content.title}
         // Side padding matches the page-container offset so the first card lines up with the content column.
-        className="mt-6 flex snap-x snap-mandatory scroll-px-[max(clamp(1.25rem,4vw,3.75rem),calc((100%-82.5rem)/2))] gap-3 overflow-x-auto px-[max(clamp(1.25rem,4vw,3.75rem),calc((100%-82.5rem)/2))] [scrollbar-width:none] lg:mt-12 lg:gap-6 [&::-webkit-scrollbar]:hidden"
+        className="mt-6 flex snap-x snap-mandatory scroll-px-[max(clamp(1.25rem,4vw,3.75rem),calc((100%-82.5rem)/2))] gap-3 overflow-x-auto px-[max(clamp(1.25rem,4vw,3.75rem),calc((100%-82.5rem)/2))] [scrollbar-width:none] lg:page-container lg:mt-12 lg:gap-6 lg:scroll-px-0 lg:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {content.features.map((feature) => (
           <li key={feature.id} className="shrink-0 snap-start">

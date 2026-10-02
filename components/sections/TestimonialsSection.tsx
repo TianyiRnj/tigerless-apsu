@@ -12,7 +12,7 @@ export function TestimonialsSection({ content }: { content: TestimonialsContent 
           {content.title} <span className="text-brand">{content.titleHighlight}</span>
         </h2>
         <p className="mt-3 text-base leading-[1.6] lg:mt-4 lg:text-xl">{content.description}</p>
-        <div className="mt-6 grid gap-6 text-left lg:mt-12 lg:grid-cols-3">
+        <div className="mt-6 grid gap-6 text-left md:grid-cols-3 md:gap-3 lg:mt-12 lg:gap-6">
           {content.items.map((testimonial) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} />
           ))}

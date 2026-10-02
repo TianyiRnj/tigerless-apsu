@@ -38,10 +38,32 @@
   --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 
   --animate-marquee: marquee 40s linear infinite;
+  --animate-language-left: language-left 32s linear -8s infinite;
+  --animate-language-right: language-right 32s linear -8s infinite;
 
   @keyframes marquee {
     to {
       transform: translateX(calc(-100% / 3));
+    }
+  }
+
+  @keyframes language-left {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+
+  @keyframes language-right {
+    from {
+      transform: translateX(calc(-100% / 3));
+    }
+
+    to {
+      transform: translateX(0);
     }
   }
 }
@@ -84,7 +106,6 @@
     *,
     ::before,
     ::after {
-      animation: none !important;
       transition-duration: 0.01ms !important;
     }
   }

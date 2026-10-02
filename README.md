@@ -65,15 +65,17 @@ ai-logs/            AI session transcripts (see ai-logs/README.md)
 
 - **Mobile-first Tailwind**, CSS only. There is no JavaScript layout logic and no separate desktop/mobile DOM trees.
 - **Breakpoints:**
-  - `lg` (1024px): two-column compositions (program panels, FAQ, testimonials) and desktop typography.
-  - `xl` (1280px): desktop navigation, three treatment cards in a row, and the two-panel BMI layout. These switch later because they need the extra width. The header's nav was measured to need about 1100px, so switching at 1280px leaves slack, and nav items are `whitespace-nowrap`.
+  - `sm` (640px): treatment cards become a balanced two-column layout with the third card centered; stacked testimonial cards gain enough height to preserve the portrait crop.
+  - `md` (768px): testimonials become three compact columns, with smaller metadata and social badges only at this intermediate width.
+  - `lg` (1024px): program panels and FAQ use two-column compositions, treatment cards become three columns, and desktop typography begins.
+  - `xl` (1280px): desktop navigation, full-size treatment cards, and the two-panel BMI layout. The header's nav was measured to need about 1100px, so switching at 1280px leaves slack, and nav items are `whitespace-nowrap`.
 - **Content column:** `page-container` is 1320px max with fluid gutters (20px on phones, 60px at 1440). Above 1440 the content stays centered while full-bleed bands (ticker, footer, carousel, white frames) stretch.
 - **Overflow:**
   - Decorative bands that intentionally overflow (language chips, ticker, CTA watermark, footer logo) clip themselves.
   - Images that overflow a panel on purpose (the program models) have matching section spacing.
   - Full-width buttons wrap their label rather than overflow at 320px.
 - **Sticky navigation pill (self-designed scrolling behavior):** The white top of the Hero frame remains static in the normal document flow; only the existing rounded navigation pill stays visible while scrolling. At the top of the page, the pill keeps its original position, content, dimensions, controls, colors, and shadow. The behavior is CSS-only, with no hide/reveal animation, blur, resizing, or duplicate header. The pill sits 8px from the viewport top on mobile and 16px on desktop. Anchor targets use responsive `scroll-margin-top` values (5rem, increasing to 7.5rem from `lg`) so the floating pill does not cover section headings. The Header intentionally has no `id="top"`; the Apsu wordmarks keep `href="/#top"`, which uses the fragment's reserved top-of-document behavior to return to scroll position 0.
-- **Verification:** the desktop page measures exactly the board height (10155px), and section tops are within a few pixels of the spec. A temporary script (not part of the repo) swept every 10px from 320 to 1920 for page overflow, escaped elements, overflowing controls and nav wrapping.
+- **Verification:** the desktop page measures exactly the board height (10155px), and section tops are within a few pixels of the spec. Responsive checks cover phone, narrow tablet, tablet, small desktop and wide desktop widths; none create page-level horizontal overflow.
 
 ## Assets and images
 
@@ -101,7 +103,7 @@ ai-logs/            AI session transcripts (see ai-logs/README.md)
 - Every interactive element has a visible keyboard focus ring (2px brand outline, white on the footer).
 - Language chips carry their `lang` attribute.
 - The ticker is not a tab stop.
-- `prefers-reduced-motion` is respected everywhere (see below).
+- `prefers-reduced-motion` removes transition and smooth-scroll effects; the language rows and trust ticker intentionally remain animated (see below).
 
 ## Design deviations
 
@@ -118,12 +120,14 @@ Only clear typos, broken content or misleading states were changed. All design c
 | Sleep: "Non-habit-forming Physician-prescribed For sensitive sleepers" | "Non-habit-forming, physician-prescribed for sensitive sleepers." | Capitalization and punctuation only; no words added. |
 | Ticker "Cash-pay, No Issuance Needed" | "Cash-pay, No Insurance Needed" | Typo; the page's own wording elsewhere is "no insurance needed". |
 | Merged language chip "Русскийالعربية" | Two chips: "Русский" and "العربية" | Two languages were merged into one chip. |
+| Mobile menu shown as an inset rounded panel | Full-viewport native modal, with its controls aligned to the navigation bar | Uses the available space on small screens, preserves generous touch targets, and avoids clipped menu content at short viewport heights. The native `<dialog>` also provides modal focus behavior and Escape handling. |
+| BMI unit selector omitted on mobile | Unit selector remains available at every viewport width | Mobile users should be able to choose imperial or metric units instead of being forced into one measurement system. Keeping the same control across layouts also makes the form behavior consistent. |
 
 **Kept as designed:**
 - "Easy Manager Treatment" and "David L"
 - all original colors, including the hero-claim teal `#21AC88`
 - the shared medication image
-- the differences between the desktop and mobile boards: the mobile board omits the Birth Control description, the weight-loss and FAQ eyebrows, the BMI unit toggle, legend and options link, and uses "Your Score" instead of "Your BMI Score"
+- the differences between the desktop and mobile boards that do not remove useful controls: the mobile board omits the Birth Control description, the weight-loss and FAQ eyebrows, the BMI legend and options link, and uses "Your Score" instead of "Your BMI Score"
 
 **Implementation notes** (not design changes):
 - FAQ answers 2–4 are not in the design. They are composed only from copy that appears elsewhere in it: the "40+ Languages" claim plus the chip list, "Cash-pay, no insurance needed", and the compounding sentence quoted from the footer disclaimer. Approved answers should replace them.
@@ -148,10 +152,11 @@ The design has no hover or pressed states, so these follow one restrained system
 | BMI unit toggle | 5% ink tint | 10% ink tint | Ring around the segment | Selected segment is ink with white text |
 | "See your GLP-1 Options" | Brand green + underline; arrow nudge | Darker ink | Same ring | — |
 | Mobile menu | — | — | — | Fades in over 200ms; page scroll locked while open |
+| Language chips | Pauses | — | Not focusable | Two continuous 32s CSS loops use three repeated groups to keep both edges filled, move in opposite directions on phone and desktop, and resume when the pointer leaves |
 | Trust ticker | Pauses | — | Not focusable | Continuous 40s linear CSS loop that resumes when the pointer leaves. There is no pause button, so it does not claim WCAG 2.2.2 compliance |
 | Skip link | — | — | Appears top-left | — |
 
-**Reduced motion:** with `prefers-reduced-motion: reduce`, transitions collapse to about 0ms, the ticker stops and shows statically, anchor scrolling is instant, and the carousel arrows jump instead of gliding.
+**Reduced motion:** with `prefers-reduced-motion: reduce`, transitions collapse to about 0ms, anchor scrolling is instant, and the carousel arrows jump instead of gliding. The language rows and trust ticker continue their default loops and still pause on hover.
 
 ## Storybook
 
@@ -204,6 +209,6 @@ Runtime assets under `public/` are tracked normally.
 - **Items without destinations are plain text.** About Apsu, Blogs, Terms, Privacy Policy, Medication Safety Information, Terms & Conditions, and the social icons are shown because the design shows them. No destinations were supplied, so there are no fake links or invented routes.
 - **The BMI section is a UI-state demo, not a medical calculator.** A valid submit shows the design's fixed result (56). Nothing is calculated, units are not converted, and the sex selection is visual only.
 - **FAQ answers 2–4 are composed** from existing design copy (see above).
-- **The ticker only pauses on hover.** There is no pause button or keyboard pause.
+- **The language rows and ticker only pause on hover.** There is no pause button or keyboard pause.
 - **The chat-bubble avatar** reuses the supplied provider photo.
 - **Non-Latin language chips** (Korean, Chinese, Hindi, Russian, Arabic) use system fonts because Work Sans doesn't include those scripts.

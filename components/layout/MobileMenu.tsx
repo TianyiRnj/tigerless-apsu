@@ -15,6 +15,8 @@ interface MobileMenuProps {
 export function MobileMenu({ content, defaultOpen = false, className = "" }: MobileMenuProps) {
   const [open, setOpen] = useState(defaultOpen);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
 
   // The native modal dialog provides the focus trap, Escape handling and focus return.
@@ -27,7 +29,14 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
       return;
     }
 
-    if (!dialog.open) dialog.showModal();
+    if (!dialog.open) {
+      // Line the menu bar up with the navigation pill it opens from (it sits lower before the page scrolls).
+      const barTop = rootRef.current?.parentElement?.getBoundingClientRect().top ?? 0;
+      dialog.style.setProperty("--bar-top", `${Math.max(0, barTop)}px`);
+      dialog.showModal();
+      // Focus the dialog itself; Safari would otherwise draw a focus ring on the auto-focused logo.
+      dialog.focus({ preventScroll: true });
+    }
 
     // Lock page scroll while open; the cleanup restores it on close or unmount.
     const root = document.documentElement;
@@ -41,9 +50,19 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
 
   const close = () => setOpen(false);
 
+  function handleClose() {
+    setOpen(false);
+    // Safari doesn't focus buttons on tap, so the dialog has nothing to hand focus back to.
+    const active = document.activeElement;
+    if (active === document.body || dialogRef.current?.contains(active)) {
+      triggerRef.current?.focus({ preventScroll: true, focusVisible: false });
+    }
+  }
+
   return (
-    <div className={className}>
+    <div ref={rootRef} className={className}>
       <IconButton
+        ref={triggerRef}
         label="Open menu"
         aria-expanded={open}
         aria-controls={menuId}
@@ -59,11 +78,13 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
         ref={dialogRef}
         id={menuId}
         aria-label="Menu"
-        onClose={close}
-        className="m-0 h-dvh max-h-none w-full max-w-none bg-white p-0 text-heading opacity-100 transition-opacity backdrop:bg-transparent starting:opacity-0"
+        tabIndex={-1}
+        onClose={handleClose}
+        className="m-0 h-dvh max-h-none w-full max-w-none bg-white p-0 text-heading opacity-100 outline-none transition-opacity backdrop:bg-transparent starting:opacity-0"
       >
-        <div className="px-5">
-          <div className="flex h-14 items-center justify-between border-b border-[#e6e6e6] pl-3">
+        <div className="px-5 pt-[var(--bar-top,0px)] lg:px-14">
+          {/* content-box keeps the 56px row of the navigation pill; the border sits below it. */}
+          <div className="box-content flex h-14 items-center justify-between border-b border-[#e6e6e6] pr-1.5 pl-3">
             <a
               href="/#top"
               onClick={close}
@@ -71,7 +92,7 @@ export function MobileMenu({ content, defaultOpen = false, className = "" }: Mob
             >
               {content.brandName}
             </a>
-            <IconButton label="Close menu" onClick={close} className="-mr-[7px] size-11">
+            <IconButton label="Close menu" onClick={close} className="size-11">
               <svg viewBox="0 0 30 30" aria-hidden="true" className="size-[30px]" fill="none" stroke="currentColor" strokeLinecap="round">
                 <circle cx="15" cy="15" r="14" strokeWidth="1.5" />
                 <path d="m11 11 8 8m0-8-8 8" strokeWidth="2" />

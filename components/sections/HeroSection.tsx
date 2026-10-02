@@ -24,25 +24,33 @@ const claimIcons = [
   <MaskIcon key="truck" src="/icons/trust/truck.svg" className="size-4 lg:size-5" />,
 ];
 
-/** One row of chips. Extra hidden copies on both sides fill the faded edges, as in the design. */
-function ChipRow({ languages }: { languages: Language[] }) {
+/** Three identical groups keep both edges covered throughout the seamless loop. */
+function ChipRow({ languages, direction }: { languages: Language[]; direction: "left" | "right" }) {
+  const animation = direction === "left" ? "animate-language-left" : "animate-language-right";
+
   return (
-    <div className="flex justify-center gap-2 lg:gap-4">
-      {[1, 0, 2].map((copy) => (
-        <ul key={copy} aria-hidden={copy > 0 || undefined} className="flex shrink-0 gap-2 lg:gap-4">
-          {languages.map((language) => (
-            <li
-              key={language.label}
-              lang={language.lang}
-              className={`flex h-8 items-center rounded-full border border-chip px-4 text-sm leading-[1.24] whitespace-nowrap lg:h-11 lg:px-8 lg:text-base ${
-                highlightedLanguages.has(language.label) ? "bg-chip text-graphite" : "bg-page text-chip-text"
-              }`}
-            >
-              {language.label}
-            </li>
-          ))}
-        </ul>
-      ))}
+    <div className="overflow-hidden">
+      <div className={`flex w-max will-change-transform ${animation} hover:[animation-play-state:paused]`}>
+        {[0, 1, 2].map((copy) => (
+          <ul
+            key={copy}
+            aria-hidden={copy > 0 || undefined}
+            className="flex shrink-0 gap-2 pr-2 lg:gap-4 lg:pr-4"
+          >
+            {languages.map((language) => (
+              <li
+                key={language.label}
+                lang={language.lang}
+                className={`flex h-8 items-center rounded-full border border-chip px-4 text-sm leading-[1.24] whitespace-nowrap lg:h-11 lg:px-8 lg:text-base ${
+                  highlightedLanguages.has(language.label) ? "bg-chip text-graphite" : "bg-page text-chip-text"
+                }`}
+              >
+                {language.label}
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
     </div>
   );
 }
@@ -92,13 +100,17 @@ export function HeroSection({ hero, treatments }: HeroSectionProps) {
         </div>
 
         <div className={`mx-auto mt-6 flex max-w-[1080px] flex-col gap-2 overflow-hidden lg:mt-8 lg:gap-4 ${chipFade}`}>
-          <ChipRow languages={hero.languages.slice(0, 6)} />
-          <ChipRow languages={hero.languages.slice(6)} />
+          <ChipRow languages={hero.languages.slice(0, 6)} direction="left" />
+          <ChipRow languages={hero.languages.slice(6)} direction="right" />
         </div>
 
-        <div className="mt-9 grid gap-6 lg:mt-14 xl:grid-cols-3">
+        <div className="mt-9 grid gap-6 sm:grid-cols-2 sm:gap-3 lg:mt-14 lg:grid-cols-3 xl:gap-6">
           {treatments.map((treatment, index) => (
-            <TreatmentCard key={treatment.id} treatment={treatment} className={treatmentTints[index]} />
+            <TreatmentCard
+              key={treatment.id}
+              treatment={treatment}
+              className={`${treatmentTints[index]} ${index === 2 ? "sm:col-span-2 sm:w-[calc(50%-6px)] sm:justify-self-center lg:col-span-1 lg:w-auto lg:justify-self-stretch" : ""}`}
+            />
           ))}
         </div>
       </div>

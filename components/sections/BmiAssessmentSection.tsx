@@ -76,7 +76,7 @@ function MeasureInput({
         className="w-full min-w-0 [appearance:textfield] bg-transparent text-sm leading-[1.6] text-heading outline-none placeholder:text-heading xl:text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
       <SortGlyph />
-      <span aria-hidden="true" className="text-sm leading-[1.6] text-unit xl:text-lg">
+      <span aria-hidden="true" className="inline-block w-[3ch] shrink-0 text-left text-sm leading-[1.6] text-unit xl:text-lg">
         {field.unit}
       </span>
     </label>
@@ -158,7 +158,7 @@ export function BmiAssessmentSection({ content, initialState = "default" }: BmiA
             </div>
 
             <div className="mt-6 [grid-area:fields] xl:mt-0 xl:rounded-b-2xl xl:border-x xl:border-b xl:border-[#bcffe6] xl:bg-white xl:px-[25px] xl:pb-[25px]">
-              <fieldset className="hidden xl:block">
+              <fieldset>
                 <legend className="sr-only">Units</legend>
                 <div className="-mt-1 inline-flex gap-1 rounded-full border border-ink p-[3.5px]">
                   {(["imperial", "metric"] as const).map((option) => (
@@ -180,7 +180,7 @@ export function BmiAssessmentSection({ content, initialState = "default" }: BmiA
                 </div>
               </fieldset>
 
-              <div className="grid gap-2 xl:mt-4 xl:grid-cols-[258fr_235fr] xl:gap-3">
+              <div className="mt-4 grid gap-2 xl:grid-cols-[258fr_235fr] xl:gap-3">
                 <fieldset>
                   <legend className={labelClasses}>{content.fieldLabels.height}</legend>
                   <div className="mt-2 grid grid-cols-2 gap-3">

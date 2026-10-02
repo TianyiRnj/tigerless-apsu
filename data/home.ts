@@ -145,7 +145,7 @@ export const homePageContent = {
     badge: "BMI",
     title: "Could a GLP-1 program be right for you?",
     instructions: "Enter your height and weight below",
-    unitLabels: { imperial: "ft / lbs", metric: "cm/kg" },
+    unitLabels: { imperial: "ft / lbs", metric: "cm / kg" },
     fieldLabels: { height: "Height", weight: "Weight", sex: "Sex" },
     sexOptions: ["Male", "Female"],
     submitLabel: "Calculate BMI",

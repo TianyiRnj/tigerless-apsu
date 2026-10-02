@@ -35,7 +35,12 @@ export function FinalCtaSection({ content, brandName }: FinalCtaSectionProps) {
             ))}
           </ul>
         </div>
-        <Button href={content.cta.href} size="lg" withArrow fullWidth className="mt-auto lg:w-auto lg:shrink-0">
+        <Button
+          href={content.cta.href}
+          size="lg"
+          withArrow
+          className="mt-auto self-center lg:self-auto lg:shrink-0"
+        >
           {content.cta.label}
         </Button>
       </div>

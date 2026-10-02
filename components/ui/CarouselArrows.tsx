@@ -18,8 +18,10 @@ export function CarouselArrows({ targetId, className = "" }: CarouselArrowsProps
 
     const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    track.scrollBy({
-      left: direction * (card.offsetWidth + gap),
+    // iOS Safari doesn't clamp smooth scrollBy, so pass an in-range absolute position instead.
+    const maxLeft = track.scrollWidth - track.clientWidth;
+    track.scrollTo({
+      left: Math.min(Math.max(track.scrollLeft + direction * (card.offsetWidth + gap), 0), maxLeft),
       behavior: reduceMotion ? "auto" : "smooth",
     });
   }

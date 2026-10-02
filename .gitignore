@@ -28,10 +28,5 @@ next-env.d.ts
 storybook-static/
 *storybook.log
 
-# local design references (not part of the submission)
-/Front-End Take-Home Assignment (1).pdf
-/detailed-element-spec.pdf
-/home-desktop.png
-/home-mobile.png
-/menu-mobile.png
-/weight-loss-mobile.png
+# local assignment and design references (not part of the submission)
+/references/

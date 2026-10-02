@@ -33,14 +33,14 @@ types/home.ts       the content contract (future API shape)
 data/home.ts        mock data that satisfies the contract
 public/             supplied icons and images (unchanged)
 .storybook/         Storybook config
-ai-logs/            AI session transcripts (see ai-logs/README.md)
+ai-logs/            selected AI assistance JSONL
 ```
 
 - **Server Components by default.** Only four client components exist, each because it owns state or needs a browser API:
   - `MobileMenu`: open state and the native `<dialog>`
   - `Accordion`: which item is open
   - `BmiAssessmentSection`: form and UI state
-  - `CarouselArrows`: calls `scrollBy`
+  - `CarouselArrows`: uses a clamped `scrollTo` call
 - **Small client islands.** The care-feature carousel itself is server-rendered markup. Only its two arrow buttons are a client island.
 - **Decorations stay local.** One-off decorative pieces live inside the section that owns them: the provider chat bubble, the sleep profile cards, the BMI gauge, and the CTA watermark.
 
@@ -186,20 +186,19 @@ The design has no hover or pressed states, so these follow one restrained system
 - the ticker behavior
 - the link and button semantics
 - the git-ignored references
-- manual transcript export
 
-The complete, unedited session transcripts are added to [`ai-logs/`](ai-logs/) by the author through manual export. [`ai-logs/README.md`](ai-logs/README.md) lists the expected files. If a transcript is not in that folder, it has not been added yet.
+The interviewer approved a selected project-relevant record instead of complete raw transcripts. [`ai-logs/AI_LOG.jsonl`](ai-logs/AI_LOG.jsonl) retains the key planning, implementation, debugging, review, and verification messages in a curated JSONL conversation.
 
 ## Reference files
 
-The assignment PDF, the element-spec PDF and the full-page screenshots stay local and are git-ignored by exact name:
+The assignment PDF, element-spec PDF and design screenshots stay together in the local `references/` directory. The whole directory is git-ignored and is not part of the submission:
 
-- `Front-End Take-Home Assignment (1).pdf`
-- `detailed-element-spec.pdf`
-- `home-desktop.png`
-- `home-mobile.png`
-- `menu-mobile.png`
-- `weight-loss-mobile.png`
+- `references/Front-End Take-Home Assignment (1).pdf`
+- `references/detailed-element-spec.pdf`
+- `references/home-desktop.png`
+- `references/home-mobile.png`
+- `references/menu-mobile.png`
+- `references/weight-loss-mobile.png`
 
 Runtime assets under `public/` are tracked normally.
 

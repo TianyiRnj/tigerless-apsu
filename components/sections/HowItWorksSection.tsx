@@ -22,7 +22,7 @@ export function HowItWorksSection({ content }: { content: HowItWorksContent }) {
             <span aria-hidden="true" className="self-end text-[56px] leading-[1.2] text-[#21ac8847] lg:text-[80px]">
               {step.number}
             </span>
-            <div className="mt-6 lg:mt-auto lg:pt-8">
+            <div className="mt-6 lg:mt-7 lg:pt-8">
               <h3 className="text-[32px] leading-[1.24] font-medium text-ink lg:text-[40px]">{step.title}</h3>
               <p className="mt-8 text-base leading-[1.6] lg:text-xl">{step.description}</p>
               <CheckList items={step.points} className="mt-4 text-base leading-[1.6] lg:text-xl" />

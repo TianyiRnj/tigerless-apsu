@@ -70,6 +70,7 @@ ai-logs/            selected AI assistance JSONL
   - `lg` (1024px): program panels and FAQ use two-column compositions, treatment cards become three columns, and desktop typography begins.
   - `xl` (1280px): desktop navigation, full-size treatment cards, and the two-panel BMI layout. The header's nav was measured to need about 1100px, so switching at 1280px leaves slack, and nav items are `whitespace-nowrap`.
 - **Content column:** `page-container` is 1320px max with fluid gutters (20px on phones, 60px at 1440). Above 1440 the content stays centered while full-bleed bands (ticker, footer, carousel, white frames) stretch.
+- **How It Works alignment:** from the `lg` breakpoint, both cards use the same fixed content offset so the "Human physicians" and "AI care assistant" headings stay level even though their checklists contain different numbers of items. The cards can still grow with wrapped content at narrower desktop widths.
 - **Overflow:**
   - Decorative bands that intentionally overflow (language chips, ticker, CTA watermark, footer logo) clip themselves.
   - Images that overflow a panel on purpose (the program models) have matching section spacing.
